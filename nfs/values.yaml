@@ -1,0 +1,7 @@
+volumes:
+- name: nfs-share
+  owner: "root"
+  group: "root"
+  mode: "0755"
+
+volumeSize: 8Gi

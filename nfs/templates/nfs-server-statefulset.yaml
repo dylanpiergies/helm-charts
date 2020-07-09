@@ -1,0 +1,59 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "nfs.fullname" . }}-server
+spec:
+  serviceName: "nfs-server"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "nfs.fullname" . }}-server
+  template:
+    metadata:
+      labels:
+        app: {{ include "nfs.fullname" . }}-server
+    spec:
+      initContainers:
+      {{- $rootScope := . }}
+      {{- range .Values.volumes }}
+      - name: {{ .name }}-initializer
+        image: busybox:1.28
+        command:
+        - /bin/sh
+        - -c
+        - mkdir -p '/exports/{{ .name }}' && chown {{ .owner }}:{{ .group }} '/exports/{{ .name }}' && chmod {{ .mode }} '/exports/{{ .name }}'
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: {{ include "nfs.fullname" $rootScope }}
+          mountPath: /exports
+      {{- end }}
+      containers:
+      - name: nfs-server
+        image: gcr.io/google_containers/volume-nfs
+        ports:
+        - name: nfs
+          containerPort: 2049
+        - name: mountd
+          containerPort: 20048
+        - name: rpcbind
+          containerPort: 111
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: {{ include "nfs.fullname" . }}
+          mountPath: /exports
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            memory: 256Mi
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ include "nfs.fullname" . }}
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: {{ .Values.volumeSize | quote }}

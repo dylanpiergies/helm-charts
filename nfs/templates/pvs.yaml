@@ -1,0 +1,17 @@
+{{ $rootScope := . }}
+{{- range .Values.volumes }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .name }}
+spec:
+  storageClassName: {{ include "nfs.fullname" $rootScope }}-{{ .name }}
+  capacity:
+    storage: {{ $rootScope.Values.volumeSize | quote }}
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: {{ include "nfs.fullname" $rootScope }}-server
+    path: "/exports/{{ .name }}"
+{{- end }}

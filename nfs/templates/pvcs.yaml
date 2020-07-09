@@ -1,0 +1,15 @@
+{{ $rootScope := . }}
+{{- range .Values.volumes }}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .name }}
+spec:
+  storageClassName: {{ include "nfs.fullname" $rootScope }}-{{ .name }}
+  resources:
+    requests:
+      storage: {{ $rootScope.Values.volumeSize | quote }}
+  accessModes:
+    - ReadWriteMany
+{{- end }}

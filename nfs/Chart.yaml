@@ -1,0 +1,4 @@
+apiVersion: v2
+name: nfs
+description: A chart for creating an NFS storage environment.
+version: 0.1.0
