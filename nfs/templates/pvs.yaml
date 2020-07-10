@@ -12,6 +12,10 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: {{ include "nfs.fullname" $rootScope }}-server
+    server: {{ include "nfs.fullname" $rootScope }}-server.{{ $rootScope.Release.Namespace }}.svc.cluster.local
     path: "/exports/{{ .name }}"
+  {{- with .mountOptions }}
+  mountOptions:
+    {{- toYaml . | nindent 2 }}
+  {{- end }}
 {{- end }}
