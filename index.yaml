@@ -1,8 +1,18 @@
 apiVersion: v1
 entries:
+  deployment-library:
+  - apiVersion: v2
+    created: "2020-10-22T01:40:22.771870772+01:00"
+    description: A Helm chart for Kubernetes
+    digest: 5c0701d34b02acc4264d7cfcb4021094f3d0f47ac239e8e7dba6dde0f93d4001
+    name: deployment-library
+    type: library
+    urls:
+    - deployment-library-0.1.0.tgz
+    version: 0.1.0
   nfs:
   - apiVersion: v2
-    created: "2020-07-11T00:24:17.173956203+01:00"
+    created: "2020-10-22T01:40:22.830377951+01:00"
     description: A chart for creating an NFS storage environment.
     digest: 570b1feb2ba2b3cfe9d2155f29efa8b4c16fdc5b481fc3069aab024c3d11091b
     name: nfs
@@ -10,11 +20,11 @@ entries:
     - nfs-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v2
-    created: "2020-07-11T00:24:17.173349865+01:00"
+    created: "2020-10-22T01:40:22.82943576+01:00"
     description: A chart for creating an NFS storage environment.
     digest: bc22978aa9d562a6bdad9feca75de90959d82334d1fa0d6c38ebeba86db2dc0b
     name: nfs
     urls:
     - nfs-0.1.0.tgz
     version: 0.1.0
-generated: "2020-07-11T00:24:17.172586587+01:00"
+generated: "2020-10-22T01:40:22.770857807+01:00"
