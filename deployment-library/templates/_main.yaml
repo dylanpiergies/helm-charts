@@ -3,4 +3,5 @@
 {{- include "deployment-library.service" . }}
 {{- include "deployment-library.hpa" . }}
 {{- include "deployment-library.ingress" . }}
+{{- include "deployment-library.serviceaccount" . }}
 {{- end -}}
