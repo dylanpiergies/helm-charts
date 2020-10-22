@@ -1,7 +1,7 @@
-{{- define "deployment-library.main" }}
-{{- include "deployment-library.deployment" . }}
-{{- include "deployment-library.service" . }}
-{{- include "deployment-library.hpa" . }}
-{{- include "deployment-library.ingress" . }}
-{{- include "deployment-library.serviceaccount" . }}
+{{- define "deployment-library.main" -}}
+{{ include "deployment-library.deployment" . }}
+{{ include "deployment-library.service" . }}
+{{ include "deployment-library.hpa" . }}
+{{ include "deployment-library.ingress" . }}
+{{ include "deployment-library.serviceaccount" . }}
 {{- end -}}
