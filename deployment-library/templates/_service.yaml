@@ -1,0 +1,16 @@
+{{- define "deployment-library.service" -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "deployment-library.fullname" . }}
+  labels:
+    {{- include "deployment-library.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  {{- with .Values.service.ports }}
+  ports:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  selector:
+    {{- include "deployment-library.selectorLabels" . | nindent 4 }}
+{{- end -}}

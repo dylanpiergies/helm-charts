@@ -1,0 +1,6 @@
+{{- define "deployment-library.main" }}
+{{- include "deployment-library.deployment" . }}
+{{- include "deployment-library.service" . }}
+{{- include "deployment-library.hpa" . }}
+{{- include "deployment-library.ingress" . }}
+{{- end -}}
