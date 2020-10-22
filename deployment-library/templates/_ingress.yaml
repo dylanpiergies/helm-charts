@@ -1,7 +1,8 @@
 {{- define "deployment-library.ingress" -}}
+{{- if .Values.ingress -}}
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "deployment-library.fullname" . -}}
-{{- $svcPort := .Values.service.port -}}
+{{- $svcPort := default 80 .Values.ingress.servicePort -}}
 {{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
 ---
 apiVersion: networking.k8s.io/v1beta1
@@ -41,4 +42,5 @@ spec:
           {{- end }}
     {{- end }}
   {{- end }}
+{{- end -}}
 {{- end -}}
