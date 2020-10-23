@@ -1,0 +1,24 @@
+{{- define "application-library.deployment" -}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "application-library.fullname" . }}
+  labels:
+    {{- include "application-library.labels" . | nindent 4 }}
+spec:
+  {{- $autoscalingEnabled := false }}
+  {{- if .Values.autoscaling }}
+  {{- if .Values.autoscaling.enabled }}
+  {{- $autoscalingEnabled = true }}
+  {{- end }}
+  {{- end }}
+  {{- if not $autoscalingEnabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "application-library.selectorLabels" . | nindent 6 }}
+  template:
+    {{- include "application-library.podTemplate" . | nindent 4 }}
+{{- end -}}

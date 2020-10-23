@@ -1,7 +1,7 @@
-{{- define "deployment-library.ingress" -}}
+{{- define "application-library.ingress" -}}
 {{- if .Values.ingress -}}
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "deployment-library.fullname" . -}}
+{{- $fullName := include "application-library.fullname" . -}}
 {{- $svcPort := default 80 .Values.ingress.servicePort -}}
 {{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
 ---
@@ -13,7 +13,7 @@ kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    {{- include "deployment-library.labels" . | nindent 4 }}
+    {{- include "application-library.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}

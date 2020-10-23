@@ -1,0 +1,19 @@
+{{- define "application-library.service" -}}
+{{- if .Values.service -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "application-library.fullname" . }}
+  labels:
+    {{- include "application-library.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  {{- with .Values.service.ports }}
+  ports:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  selector:
+    {{- include "application-library.selectorLabels" . | nindent 4 }}
+{{- end -}}
+{{- end -}}
