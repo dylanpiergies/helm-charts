@@ -1,0 +1,14 @@
+{{- define "application-library.main" -}}
+{{ $controllerKind := .Values.controllerType | default "Deployment" }}
+{{- if eq $controllerKind "Deployment" }}
+{{ include "application-library.deployment" . }}
+{{- else if eq $controllerKind "StatefulSet" }}
+{{ include "application-library.statefulset" . }}
+{{- else }}
+  {{ fail "Unknown controller type." }}
+{{- end }}
+{{ include "application-library.service" . }}
+{{ include "application-library.hpa" . }}
+{{ include "application-library.ingress" . }}
+{{ include "application-library.serviceaccount" . }}
+{{- end -}}

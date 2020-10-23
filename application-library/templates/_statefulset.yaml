@@ -1,18 +1,18 @@
-{{- define "deployment-library.deployment" -}}
+{{- define "application-library.statefulset" -}}
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: {{ include "deployment-library.fullname" . }}
+  name: {{ include "application-library.fullname" . }}
   labels:
-    {{- include "deployment-library.labels" . | nindent 4 }}
+    {{- include "application-library.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "deployment-library.selectorLabels" . | nindent 6 }}
+      {{- include "application-library.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -20,13 +20,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "deployment-library.selectorLabels" . | nindent 8 }}
+        {{- include "application-library.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "deployment-library.serviceAccountName" . }}
+      serviceAccountName: {{ include "application-library.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
