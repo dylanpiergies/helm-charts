@@ -33,9 +33,9 @@ podSecurityContext: {}
 securityContext: {}
   # capabilities:
   #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
+#   - ALL
+# readOnlyRootFilesystem: true
+# runAsNonRoot: true
 # runAsUser: 1000
 
 containerPorts:
@@ -74,10 +74,25 @@ extraEnv: ""
 # Behaves the same as env. It allows additional environment to be specified without
 # overwriting the main env.
 
+volumeMounts: []
+# - mountPath: /data
+#   name: data-volume
+volumes: ""
+# volumes: |-
+#   - name: temp-data-volume
+#     emptyDir: {}
+#
+# Or if you have a persistent volume:
+#
+# volumes: |-
+#   - name: data-volume
+#     persistentVolumeClaim:
+#       claimName: {{ include "application-library.fullname" . }}-data
+
 ingress:
   enabled: false
   annotations: {}
-    # kubernetes.io/ingress.class: nginx
+  # kubernetes.io/ingress.class: nginx
   # kubernetes.io/tls-acme: "true"
   servicePort: http
   hosts:
@@ -98,7 +113,7 @@ resources: {}
   #   memory: 128Mi
   # requests:
   #   cpu: 100m
-#   memory: 128Mi
+  #   memory: 128Mi
 
 autoscaling:
   enabled: false

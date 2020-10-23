@@ -116,7 +116,10 @@ spec:
     {{- with .Values.resources }}
     resources:
       {{- toYaml . | nindent 6 }}
-  {{- end }}
+    {{- end }}
+    {{- with .Values.volumeMounts }}
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
   {{- with .Values.nodeSelector }}
   nodeSelector:
     {{- toYaml . | nindent 4 }}
@@ -128,5 +131,9 @@ spec:
   {{- with .Values.tolerations }}
   tolerations:
     {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.volumes }}
+  volumes:
+    {{- tpl . $ | nindent 4 }}
   {{- end }}
 {{- end -}}
