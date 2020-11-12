@@ -1,5 +1,5 @@
 {{- define "application-library.main" -}}
-{{ $controllerKind := .Values.controllerType | default "Deployment" }}
+{{ $controllerKind := .Values.controllerKind | default "Deployment" }}
 {{- if eq $controllerKind "Deployment" }}
 {{ include "application-library.deployment" . }}
 {{- else if eq $controllerKind "StatefulSet" }}

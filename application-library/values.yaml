@@ -4,17 +4,14 @@
 
 replicaCount: 1
 
-image:
-  repository: ""
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+image: ""
+imagePullPolicy: IfNotPresent
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-controllerType: Deployment
+controllerKind: Deployment
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -36,21 +33,27 @@ securityContext: {}
   #   - ALL
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
-# runAsUser: 1000
+  # runAsUser: 1000
 
-containerPorts:
-- name: http
-  containerPort: 8080
-  protocol: TCP
+containerPorts: |-
+  - name: http
+    containerPort: 8080
+    protocol: TCP
+  {{- if .Values.global.debug }}
+  - name: jdwp
+    containerPort: 5005
+    protocol: TCP
+  {{- end }}
 
 service:
   type: ClusterIP
-  ports:
-  - port: 80
-    targetPort: http
-    protocol: TCP
-    name: http
+  ports: |-
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
 
+# A string template of the container's environment variables.
 env: ""
 # Environment variable configuration. THis is specified as a string and is passed into the
 # template engine.
@@ -74,10 +77,28 @@ extraEnv: ""
 # Behaves the same as env. It allows additional environment to be specified without
 # overwriting the main env.
 
+command: ""
+args: ""
+
+volumeMounts: []
+# - mountPath: /data
+#   name: data-volume
+volumes: ""
+# volumes: |-
+#   - name: temp-data-volume
+#     emptyDir: {}
+#
+# Or if you have a persistent volume:
+#
+# volumes: |-
+#   - name: data-volume
+#     persistentVolumeClaim:
+#       claimName: {{ include "application-library.fullname" . }}-data
+
 ingress:
   enabled: false
   annotations: {}
-    # kubernetes.io/ingress.class: nginx
+  # kubernetes.io/ingress.class: nginx
   # kubernetes.io/tls-acme: "true"
   servicePort: http
   hosts:
@@ -98,7 +119,7 @@ resources: {}
   #   memory: 128Mi
   # requests:
   #   cpu: 100m
-#   memory: 128Mi
+  #   memory: 128Mi
 
 autoscaling:
   enabled: false

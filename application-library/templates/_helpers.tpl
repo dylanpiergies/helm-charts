@@ -34,10 +34,12 @@ Create chart name and version as used by the chart label.
 Common labels
 */}}
 {{- define "application-library.labels" -}}
+app: {{ include "application-library.fullname" . }}
 helm.sh/chart: {{ include "application-library.chart" . }}
 {{ include "application-library.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
@@ -73,7 +75,7 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
   labels:
-    {{- include "application-library.selectorLabels" . | nindent 4 }}
+    {{- include "application-library.labels" . | nindent 4 }}
 spec:
   {{- with .Values.imagePullSecrets }}
   imagePullSecrets:
@@ -90,13 +92,21 @@ spec:
     securityContext:
       {{- toYaml . | nindent 6 }}
     {{- end }}
-    image: "{{ required "image.repository must be specified" .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion | default "latest" }}"
-    {{- with .Values.image.pullPolicy }}
+    image: {{ tpl .Values.image . | quote }}
+    {{- with .Values.imagePullPolicy }}
     imagePullPolicy: {{ . }}
+    {{- end }}
+    {{- with .Values.command }}
+    command:
+    {{- tpl . $ | nindent 4 }}
+    {{- end }}
+    {{- with .Values.args }}
+    args:
+    {{- tpl . $ | nindent 4 }}
     {{- end }}
     {{- with .Values.containerPorts }}
     ports:
-      {{- toYaml . | nindent 6 }}
+    {{- tpl . $ | nindent 4 }}
     {{- end }}
     {{- with .Values.env }}
     env:
@@ -116,7 +126,10 @@ spec:
     {{- with .Values.resources }}
     resources:
       {{- toYaml . | nindent 6 }}
-  {{- end }}
+    {{- end }}
+    {{- with .Values.volumeMounts }}
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
   {{- with .Values.nodeSelector }}
   nodeSelector:
     {{- toYaml . | nindent 4 }}
@@ -128,5 +141,9 @@ spec:
   {{- with .Values.tolerations }}
   tolerations:
     {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.volumes }}
+  volumes:
+    {{- tpl . $ | nindent 4 }}
   {{- end }}
 {{- end -}}
