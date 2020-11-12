@@ -4,17 +4,14 @@
 
 replicaCount: 1
 
-image:
-  repository: ""
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+image: ""
+imagePullPolicy: IfNotPresent
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-controllerType: Deployment
+controllerKind: Deployment
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -33,23 +30,28 @@ podSecurityContext: {}
 securityContext: {}
   # capabilities:
   #   drop:
-#   - ALL
-# readOnlyRootFilesystem: true
-# runAsNonRoot: true
-# runAsUser: 1000
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
 
-containerPorts:
-- name: http
-  containerPort: 8080
-  protocol: TCP
+containerPorts: |-
+  - name: http
+    containerPort: 8080
+    protocol: TCP
+  {{- if .Values.global.debug }}
+  - name: jdwp
+    containerPort: 5005
+    protocol: TCP
+  {{- end }}
 
 service:
   type: ClusterIP
-  ports:
-  - port: 80
-    targetPort: http
-    protocol: TCP
-    name: http
+  ports: |-
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
 
 env: ""
 # Environment variable configuration. THis is specified as a string and is passed into the
@@ -73,6 +75,9 @@ env: ""
 extraEnv: ""
 # Behaves the same as env. It allows additional environment to be specified without
 # overwriting the main env.
+
+command: ""
+args: ""
 
 volumeMounts: []
 # - mountPath: /data

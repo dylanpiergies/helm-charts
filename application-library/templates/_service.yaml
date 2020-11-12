@@ -11,7 +11,7 @@ spec:
   type: {{ required "service.type is required if service present" .Values.service.type }}
   {{- with .Values.service.ports }}
   ports:
-    {{- toYaml . | nindent 4 }}
+    {{- tpl . $ | nindent 4 }}
   {{- end }}
   selector:
     {{- include "application-library.selectorLabels" . | nindent 4 }}

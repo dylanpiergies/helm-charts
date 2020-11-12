@@ -3,4 +3,4 @@ name: application-library
 description: >-
   A library containing templates for deploying an an application on Kubernetes.
 type: library
-version: 1.0.1
+version: 2.0.0

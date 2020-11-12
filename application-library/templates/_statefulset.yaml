@@ -7,6 +7,7 @@ metadata:
   labels:
     {{- include "application-library.labels" . | nindent 4 }}
 spec:
+  serviceName: {{ include "application-library.fullname" . }}
   {{- $autoscalingEnabled := false }}
   {{- if .Values.autoscaling }}
   {{- if .Values.autoscaling.enabled }}
@@ -20,5 +21,5 @@ spec:
     matchLabels:
       {{- include "application-library.selectorLabels" . | nindent 6 }}
   template:
-    {{- include "application-library.podTemplate" | nindent 4 }}
+    {{- include "application-library.podTemplate" . | nindent 4 }}
 {{- end -}}
