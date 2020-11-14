@@ -139,6 +139,11 @@ livenessProbe:
     path: /
     port: http
 
+startupProbe:
+  httpGet:
+    path: /
+    port: http
+
 readinessProbe:
   httpGet:
     path: /
