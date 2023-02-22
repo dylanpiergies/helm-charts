@@ -1,0 +1,38 @@
+name: Update Index
+
+on:
+  push:
+    branches: [ "main" ]
+    paths: [ "**.tgz" ]
+
+  workflow_dispatch:
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+
+      - name: Update Helm Repository Index
+        run: |
+          helm repo index --url https://dylanpiergies.github.io/helm-charts/ .
+
+      - name: Commit Changes and Merge to gh-pages
+        run: |
+          git add index.yaml
+          git commit -m 'Regenerated index.yaml'
+          git push
+          git checkout gh-pages
+          git reset --hard main
+          git push --force
