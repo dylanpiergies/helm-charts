@@ -2,7 +2,17 @@ apiVersion: v1
 entries:
   app-lib:
   - apiVersion: v2
-    created: "2023-02-24T01:11:42.639369183Z"
+    created: "2023-02-24T01:33:00.736723063Z"
+    description: A library chart containing partial templates to simplify the implementation
+      of application charts.
+    digest: 7961f7a0565f56db69c8ef3ede2287352fda9ed35ae1038e921085ab24f233f6
+    name: app-lib
+    type: library
+    urls:
+    - https://dylanpiergies.github.io/helm-charts/app-lib-0.1.0.tgz
+    version: 0.1.0
+  - apiVersion: v2
+    created: "2023-02-24T01:33:00.736184165Z"
     description: A library chart containing partial templates to simplify the implementation
       of application charts.
     digest: 56da5e9991f14a1b9b1d48003ed701ffa48e6e7dd48a6472eb8f043cd2a58606
@@ -12,7 +22,7 @@ entries:
     - https://dylanpiergies.github.io/helm-charts/app-lib-0.0.1.tgz
     version: 0.0.1
   - apiVersion: v2
-    created: "2023-02-24T01:11:42.638825174Z"
+    created: "2023-02-24T01:33:00.735580967Z"
     description: A library chart containing partial templates to simplify the implementation
       of application charts.
     digest: 8c9b822d7611419107c1ce98501d7bb1def15dd3e766e4ef31f6894ac8b76e5a
@@ -21,4 +31,4 @@ entries:
     urls:
     - https://dylanpiergies.github.io/helm-charts/app-lib-0.0.0.tgz
     version: 0.0.0
-generated: "2023-02-24T01:11:42.638089463Z"
+generated: "2023-02-24T01:33:00.734464471Z"
